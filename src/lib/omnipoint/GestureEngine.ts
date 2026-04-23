@@ -186,6 +186,14 @@ export class GestureEngine {
       this.prevIndex = null;
       this.clickState = "IDLE";
       this.lastScrollY = null;
+      TelemetryStore.set({
+        handPresent: false,
+        handedness: "none",
+        fingersExtended: [false, false, false, false, false],
+        fingerCount: 0,
+        pinchDistance: 0,
+        gesture: "none",
+      });
     }
 
     const sensorLost = confidence < 0.5;
