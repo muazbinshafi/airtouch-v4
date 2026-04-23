@@ -8,6 +8,7 @@ import { BridgeTroubleshooter } from "@/components/omnipoint/BridgeTroubleshoote
 import { GestureEngine, defaultConfig, type EngineConfig } from "@/lib/omnipoint/GestureEngine";
 import { HIDBridge } from "@/lib/omnipoint/HIDBridge";
 import { TelemetryStore } from "@/lib/omnipoint/TelemetryStore";
+import { ThemeSettings } from "@/components/ThemeSettings";
 
 const Demo = () => {
   const [initialized, setInitialized] = useState(false);
@@ -211,6 +212,7 @@ const Demo = () => {
           setBridgeUrl={setBridgeUrl}
           onTestBridge={handleTestBridge}
         />
+        <ThemeSettings variant="floating" />
       </main>
     ),
     [showInit, status, progress, error, initialize, initializing, config, setConfig, bridgeUrl, handleEmergencyToggle, handleReconnect, handleSetOrigin, handleTestBridge, troubleshooterOpen],
