@@ -32,9 +32,18 @@ const GestureGuide = () => {
         </p>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 pb-24 grid gap-6 md:grid-cols-2">
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 pb-24 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <GestureCard
           step="01"
+          name="POINT"
+          action="Track / hover"
+          tip="Extend only your index finger. The cursor follows your fingertip — no clicks emitted."
+        >
+          <PointAnim />
+        </GestureCard>
+
+        <GestureCard
+          step="02"
           name="INDEX MOVE"
           action="Move cursor"
           tip="Keep your wrist relaxed. Slow movements = pixel precision."
@@ -43,7 +52,7 @@ const GestureGuide = () => {
         </GestureCard>
 
         <GestureCard
-          step="02"
+          step="03"
           name="PINCH"
           action="Left click"
           tip="Tap thumb + index briefly. Release within ~200 ms to register a click."
@@ -52,7 +61,16 @@ const GestureGuide = () => {
         </GestureCard>
 
         <GestureCard
-          step="03"
+          step="04"
+          name="THREE-FINGER PINCH"
+          action="Right click"
+          tip="Touch thumb to BOTH index and middle fingertips together. Opens context menus."
+        >
+          <RightClickAnim />
+        </GestureCard>
+
+        <GestureCard
+          step="05"
           name="SUSTAINED PINCH"
           action="Drag"
           tip="Hold the pinch and move. Release to drop."
@@ -61,7 +79,7 @@ const GestureGuide = () => {
         </GestureCard>
 
         <GestureCard
-          step="04"
+          step="06"
           name="TWO-FINGER SCROLL"
           action="Scroll up / down"
           tip="Extend index + middle. Move them up to scroll up, down to scroll down."
@@ -70,7 +88,16 @@ const GestureGuide = () => {
         </GestureCard>
 
         <GestureCard
-          step="05"
+          step="07"
+          name="THUMBS UP"
+          action="Confirm / OK"
+          tip="Thumb up, all other fingers folded. Useful for confirmations and dismissing dialogs."
+        >
+          <ThumbsUpAnim />
+        </GestureCard>
+
+        <GestureCard
+          step="08"
           name="OPEN PALM"
           action="Idle / park"
           tip="Spread all five fingers to release input safely."
@@ -79,7 +106,7 @@ const GestureGuide = () => {
         </GestureCard>
 
         <GestureCard
-          step="06"
+          step="09"
           name="FIST"
           action="Emergency stop"
           tip="Make a tight fist for 500 ms to instantly disable the bridge."
@@ -347,6 +374,86 @@ function FistAnim() {
         <path d="M 82 60 Q 100 50 118 60 L 116 78 Q 100 84 84 78 Z" fill="hsl(var(--destructive) / 0.4)" stroke="hsl(var(--destructive))" strokeWidth="1" />
       </g>
       <text x="100" y="110" textAnchor="middle" fill="hsl(var(--destructive))" fontFamily="ui-monospace, monospace" fontSize="9" letterSpacing="3" className="fs-flash">⚠ EMERGENCY STOP</text>
+    </svg>
+  );
+}
+
+function PointAnim() {
+  return (
+    <svg viewBox="0 0 200 120" className="absolute inset-0 w-full h-full">
+      <style>{`
+        .pt-pulse { animation: pt-pulse 2s ease-in-out infinite; transform-origin: 100px 30px; }
+        @keyframes pt-pulse { 0%,100% { opacity: 0.4; transform: scale(1);} 50% { opacity: 1; transform: scale(1.2);} }
+        .pt-ray { stroke-dasharray: 3 4; animation: pt-dash 0.8s linear infinite; }
+        @keyframes pt-dash { to { stroke-dashoffset: -14; } }
+      `}</style>
+      <line x1="100" y1="30" x2="100" y2="80" stroke="hsl(var(--primary) / 0.5)" strokeWidth="0.6" className="pt-ray" />
+      <circle cx="100" cy="30" r="6" fill="none" stroke="hsl(var(--primary))" strokeWidth="1" className="pt-pulse" />
+      <circle cx="100" cy="30" r="2.5" fill="hsl(var(--primary))" />
+      <g transform="translate(100 80)">
+        <line x1="0" y1="0" x2="0" y2="-45" stroke="hsl(var(--primary))" strokeWidth="3" strokeLinecap="round" />
+        <circle cx="0" cy="5" r="12" fill="hsl(var(--primary) / 0.25)" stroke="hsl(var(--primary))" strokeWidth="1" />
+        <line x1="0" y1="5" x2="-10" y2="-3" stroke="hsl(var(--primary) / 0.5)" strokeWidth="2" strokeLinecap="round" />
+        <line x1="0" y1="5" x2="10" y2="-3" stroke="hsl(var(--primary) / 0.5)" strokeWidth="2" strokeLinecap="round" />
+        <line x1="0" y1="5" x2="13" y2="6" stroke="hsl(var(--primary) / 0.5)" strokeWidth="2" strokeLinecap="round" />
+      </g>
+      <text x="100" y="112" textAnchor="middle" fill="hsl(var(--primary))" fontFamily="ui-monospace, monospace" fontSize="9" letterSpacing="3">HOVER ONLY</text>
+    </svg>
+  );
+}
+
+function RightClickAnim() {
+  return (
+    <svg viewBox="0 0 200 120" className="absolute inset-0 w-full h-full">
+      <style>{`
+        .rc-thumb { animation: rc-thumb 1.8s ease-in-out infinite; transform-origin: 100px 70px; }
+        .rc-index { animation: rc-index 1.8s ease-in-out infinite; transform-origin: 100px 70px; }
+        .rc-middle { animation: rc-middle 1.8s ease-in-out infinite; transform-origin: 100px 70px; }
+        @keyframes rc-thumb { 0%,100% { transform: rotate(-22deg); } 45%,55% { transform: rotate(0deg); } }
+        @keyframes rc-index  { 0%,100% { transform: rotate(10deg); } 45%,55% { transform: rotate(0deg); } }
+        @keyframes rc-middle { 0%,100% { transform: rotate(28deg); } 45%,55% { transform: rotate(8deg); } }
+        .rc-menu { opacity: 0; animation: rc-menu 1.8s ease-in-out infinite; }
+        @keyframes rc-menu { 50% { opacity: 1; } 80% { opacity: 0; } }
+      `}</style>
+      <g transform="translate(100 70)">
+        <line className="rc-index" x1="0" y1="0" x2="0" y2="-42" stroke="hsl(var(--primary))" strokeWidth="3" strokeLinecap="round" />
+        <line className="rc-middle" x1="0" y1="0" x2="6" y2="-38" stroke="hsl(var(--primary))" strokeWidth="3" strokeLinecap="round" />
+        <line className="rc-thumb" x1="0" y1="0" x2="-22" y2="-30" stroke="hsl(var(--primary))" strokeWidth="3" strokeLinecap="round" />
+        <circle cx="0" cy="0" r="9" fill="hsl(var(--primary) / 0.3)" stroke="hsl(var(--primary))" strokeWidth="1" />
+      </g>
+      <g transform="translate(130 25)" className="rc-menu">
+        <rect x="0" y="0" width="50" height="42" fill="hsl(var(--card))" stroke="hsl(var(--primary))" strokeWidth="0.8" />
+        <line x1="4" y1="12" x2="46" y2="12" stroke="hsl(var(--primary) / 0.4)" strokeWidth="0.5" />
+        <line x1="4" y1="22" x2="46" y2="22" stroke="hsl(var(--primary) / 0.4)" strokeWidth="0.5" />
+        <line x1="4" y1="32" x2="46" y2="32" stroke="hsl(var(--primary) / 0.4)" strokeWidth="0.5" />
+      </g>
+      <text x="100" y="112" textAnchor="middle" fill="hsl(var(--primary))" fontFamily="ui-monospace, monospace" fontSize="9" letterSpacing="3">RIGHT CLICK</text>
+    </svg>
+  );
+}
+
+function ThumbsUpAnim() {
+  return (
+    <svg viewBox="0 0 200 120" className="absolute inset-0 w-full h-full">
+      <style>{`
+        .tu-hand { animation: tu-bob 2s ease-in-out infinite; transform-origin: 100px 70px; }
+        @keyframes tu-bob { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-6px);} }
+        .tu-spark { animation: tu-spark 2s ease-in-out infinite; transform-origin: 100px 25px; }
+        @keyframes tu-spark { 0%,100% { opacity: 0.3; transform: scale(0.9);} 50% { opacity: 1; transform: scale(1.2);} }
+      `}</style>
+      <g className="tu-spark">
+        <path d="M 100 18 L 102 25 L 109 25 L 103 29 L 105 36 L 100 32 L 95 36 L 97 29 L 91 25 L 98 25 Z"
+              fill="hsl(var(--primary))" />
+      </g>
+      <g className="tu-hand">
+        <circle cx="100" cy="80" r="18" fill="hsl(var(--primary) / 0.3)" stroke="hsl(var(--primary))" strokeWidth="1.2" />
+        {/* thumb up */}
+        <line x1="100" y1="62" x2="100" y2="42" stroke="hsl(var(--primary))" strokeWidth="6" strokeLinecap="round" />
+        {/* folded fingers */}
+        <path d="M 86 75 Q 84 68 90 66 L 110 66 Q 116 68 114 75 Z"
+              fill="hsl(var(--primary) / 0.5)" stroke="hsl(var(--primary))" strokeWidth="0.8" />
+      </g>
+      <text x="100" y="112" textAnchor="middle" fill="hsl(var(--primary))" fontFamily="ui-monospace, monospace" fontSize="9" letterSpacing="3">CONFIRM / OK</text>
     </svg>
   );
 }

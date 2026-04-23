@@ -1,4 +1,5 @@
 import { useTelemetry } from "@/hooks/useTelemetry";
+import { DetectionHUD } from "@/components/omnipoint/DetectionHUD";
 
 interface Props {
   onSetOrigin: () => void;
@@ -33,6 +34,7 @@ export function SensorPanel({ onSetOrigin }: Props) {
         />
         {/* Corner brackets */}
         <CornerBrackets />
+        <DetectionHUD />
         {t.sensorLost && (
           <div className="absolute inset-0 flex items-center justify-center bg-destructive/15 backdrop-blur-[2px]">
             <div className="font-mono text-destructive text-2xl tracking-[0.4em] led">SENSOR LOST</div>

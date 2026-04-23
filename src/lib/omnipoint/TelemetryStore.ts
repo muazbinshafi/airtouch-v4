@@ -2,8 +2,22 @@
 // Avoids re-rendering the canvas loop on metric updates.
 
 export type WSState = "disconnected" | "connecting" | "connected" | "stopped";
-export type GestureKind = "none" | "click" | "drag" | "scroll_up" | "scroll_down";
+export type GestureKind =
+  | "none"
+  | "point"
+  | "click"
+  | "right_click"
+  | "drag"
+  | "scroll_up"
+  | "scroll_down"
+  | "thumbs_up"
+  | "open_palm"
+  | "fist";
 export type BridgeProbe = "idle" | "probing" | "ok" | "failed";
+export type Handedness = "none" | "Left" | "Right";
+
+// thumb, index, middle, ring, pinky
+export type FingerStates = [boolean, boolean, boolean, boolean, boolean];
 
 export interface TelemetrySnapshot {
   fps: number;
@@ -22,6 +36,12 @@ export interface TelemetrySnapshot {
   bridgeValidated: boolean;
   bridgeProbeMsg: string;
   bridgeProbeRttMs: number;
+  // detection state for live HUD
+  handPresent: boolean;
+  handedness: Handedness;
+  fingersExtended: FingerStates;
+  fingerCount: number;
+  pinchDistance: number;
 }
 
 const initial: TelemetrySnapshot = {
@@ -41,6 +61,11 @@ const initial: TelemetrySnapshot = {
   bridgeValidated: false,
   bridgeProbeMsg: "Not tested",
   bridgeProbeRttMs: 0,
+  handPresent: false,
+  handedness: "none",
+  fingersExtended: [false, false, false, false, false],
+  fingerCount: 0,
+  pinchDistance: 0,
 };
 
 let snapshot: TelemetrySnapshot = { ...initial };
