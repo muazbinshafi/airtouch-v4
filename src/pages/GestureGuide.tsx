@@ -457,6 +457,8 @@ function ThumbsUpAnim() {
     </svg>
   );
 }
+
+function Hand({ pointing = false }: { pointing?: boolean }) {
   return (
     <g transform="translate(100 60)">
       <circle cx="0" cy="10" r="12" fill="hsl(var(--primary) / 0.25)" stroke="hsl(var(--primary))" strokeWidth="1" />
