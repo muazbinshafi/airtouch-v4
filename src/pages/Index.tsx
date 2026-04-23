@@ -19,7 +19,7 @@ const Index = () => {
   }, []);
 
   return (
-    <main className="min-h-screen bg-background text-foreground scan-grid">
+    <main className="min-h-screen bg-background text-foreground scan-grid bg-radial-emerald">
       <Header />
       <Hero />
       <Specs />
@@ -88,17 +88,20 @@ function Hero() {
           </a>
         </div>
 
-        <div className="mt-16 panel p-1 max-w-3xl glow-emerald">
+        <div className="mt-16 panel p-1 max-w-3xl glow-emerald anim-float">
           <div className="border-b hairline px-3 h-9 flex items-center justify-between">
             <div className="font-mono text-[10px] tracking-[0.3em] text-emerald-glow">SENSOR // PREVIEW</div>
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-destructive" />
               <span className="w-1.5 h-1.5 rounded-full bg-warning" />
-              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+              <span className="w-1.5 h-1.5 rounded-full bg-primary led" />
             </div>
           </div>
           <div className="relative aspect-video bg-black scan-grid overflow-hidden anim-scanline">
             <HandGlyph />
+            <div className="absolute top-3 left-3 font-mono text-[9px] tracking-[0.3em] text-emerald-glow">
+              ▣ DETECTION · RIGHT HAND · 5/5
+            </div>
             <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between font-mono text-[10px] tracking-[0.25em] text-muted-foreground">
               <span>FPS <span className="text-emerald-glow">60.0</span></span>
               <span>LAT <span className="text-emerald-glow">12 ms</span></span>
