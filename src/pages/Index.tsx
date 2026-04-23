@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import { Hand, MousePointer2, Zap, Shield, Activity, Sparkles, ArrowRight, Play, Github, Cpu, Eye, Gauge } from "lucide-react";
 
 const Index = () => {
   useEffect(() => {
@@ -13,19 +14,21 @@ const Index = () => {
       }
       tag.content = content;
     };
-    setMeta("description", "Control your Linux PC with hand gestures. 60 FPS MediaPipe vision + uinput HID bridge. Open source.");
+    setMeta("description", "Control your computer with hand gestures. 60 FPS MediaPipe vision, real OS cursor control via a tiny Linux daemon. Open source.");
     setMeta("og:title", "OmniPoint HCI — Touchless Gesture Control", "property");
     setMeta("og:description", "Hand gestures → real OS cursor. MediaPipe + Linux uinput bridge.", "property");
   }, []);
 
   return (
-    <main className="min-h-screen bg-background text-foreground scan-grid bg-radial-emerald">
+    <main className="min-h-screen bg-background text-foreground">
       <Header />
       <Hero />
-      <Specs />
+      <Marquee />
+      <Features />
       <Gestures />
       <Architecture />
       <Quickstart />
+      <CTA />
       <Footer />
     </main>
   );
@@ -33,25 +36,40 @@ const Index = () => {
 
 function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b hairline bg-background/80 backdrop-blur">
-      <div className="mx-auto max-w-6xl flex items-center justify-between px-4 sm:px-6 h-14">
-        <Link to="/" className="flex items-center gap-2 font-mono">
-          <span className="w-2 h-2 rounded-full bg-primary led anim-pulse-soft" />
-          <span className="text-emerald-glow text-[11px] tracking-[0.4em]">OMNIPOINT</span>
-          <span className="text-muted-foreground text-[11px] tracking-[0.3em]">// HCI</span>
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl">
+      <div className="mx-auto max-w-7xl flex items-center justify-between px-6 h-16">
+        <Link to="/" className="flex items-center gap-2.5">
+          <div className="relative w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center shadow-md">
+            <Hand className="w-4 h-4 text-white" strokeWidth={2.5} />
+            <span className="absolute -inset-0.5 rounded-lg bg-gradient-primary opacity-40 blur-md -z-10" />
+          </div>
+          <div className="flex flex-col leading-tight">
+            <span className="font-display text-[15px] text-foreground">OmniPoint</span>
+            <span className="font-mono text-[9px] tracking-[0.25em] text-muted-foreground -mt-0.5">HCI · v1.0</span>
+          </div>
         </Link>
-        <nav className="hidden sm:flex items-center gap-6 font-mono text-[11px] tracking-[0.25em] text-muted-foreground">
-          <a href="#gestures" className="hover:text-foreground transition-colors">GESTURES</a>
-          <Link to="/guide" className="hover:text-foreground transition-colors">GUIDE</Link>
-          <a href="#architecture" className="hover:text-foreground transition-colors">ARCH</a>
-          <a href="#quickstart" className="hover:text-foreground transition-colors">QUICKSTART</a>
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
+          <a href="#features" className="hover:text-foreground transition-colors">Features</a>
+          <a href="#gestures" className="hover:text-foreground transition-colors">Gestures</a>
+          <Link to="/guide" className="hover:text-foreground transition-colors">Guide</Link>
+          <a href="#architecture" className="hover:text-foreground transition-colors">How it works</a>
+          <a href="#quickstart" className="hover:text-foreground transition-colors">Docs</a>
         </nav>
-        <Link
-          to="/demo"
-          className="font-mono text-[11px] tracking-[0.3em] px-3 h-9 inline-flex items-center border border-primary text-primary hover:bg-primary/10 transition-colors"
-        >
-          ▶ LAUNCH DEMO
-        </Link>
+        <div className="flex items-center gap-2">
+          <a
+            href="https://github.com/muazbinshafi/airtouch-v3"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-lg border border-border hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"
+            aria-label="GitHub repository"
+          >
+            <Github className="w-4 h-4" />
+          </a>
+          <Link to="/demo" className="btn-primary h-10 px-4 text-sm">
+            <Play className="w-3.5 h-3.5 fill-current" />
+            Launch demo
+          </Link>
+        </div>
       </div>
     </header>
   );
@@ -60,57 +78,95 @@ function Header() {
 function Hero() {
   return (
     <section className="relative overflow-hidden">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-20 pb-24">
-        <div className="font-mono text-[10px] tracking-[0.5em] text-primary mb-5">
-          ENTERPRISE TOUCHLESS INTERFACE · v1.0
-        </div>
-        <h1 className="font-mono text-4xl sm:text-6xl md:text-7xl tracking-tight text-foreground leading-[1.05] max-w-4xl">
-          Control your <span className="text-emerald-glow">entire desktop</span> with a wave of your hand.
-        </h1>
-        <p className="mt-6 max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-          OmniPoint is a gesture-to-HID bridge. The browser tracks your hand at 60 FPS with
-          MediaPipe; a tiny Linux daemon injects real mouse events into your OS — desktop,
-          browsers, terminals, games. Everything.
-        </p>
-        <div className="mt-10 flex flex-wrap items-center gap-3">
-          <Link
-            to="/demo"
-            className="font-mono text-xs tracking-[0.35em] h-12 px-6 inline-flex items-center border border-primary bg-primary/10 text-primary hover:bg-primary/20 led transition-colors"
-            style={{ boxShadow: "0 0 18px hsl(var(--primary) / 0.4)" }}
-          >
-            ▶ INITIALIZE SENSOR
-          </Link>
-          <a
-            href="#quickstart"
-            className="font-mono text-xs tracking-[0.35em] h-12 px-6 inline-flex items-center border hairline text-foreground hover:bg-card transition-colors"
-          >
-            ⌘ INSTALL BRIDGE
-          </a>
-        </div>
-
-        <div className="mt-16 panel p-1 max-w-3xl glow-emerald anim-float">
-          <div className="border-b hairline px-3 h-9 flex items-center justify-between">
-            <div className="font-mono text-[10px] tracking-[0.3em] text-emerald-glow">SENSOR // PREVIEW</div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-destructive" />
-              <span className="w-1.5 h-1.5 rounded-full bg-warning" />
-              <span className="w-1.5 h-1.5 rounded-full bg-primary led" />
+      <div className="mx-auto max-w-7xl px-6 pt-20 pb-24 lg:pt-28 lg:pb-32">
+        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-16 items-center">
+          {/* Left: copy */}
+          <div>
+            <div className="chip mb-6">
+              <Sparkles className="w-3 h-3" />
+              Now with 9 native gestures · MediaPipe powered
+            </div>
+            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.02] text-foreground">
+              Your hands are<br />
+              the new <span className="text-gradient">mouse</span>.
+            </h1>
+            <p className="mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed">
+              OmniPoint turns any webcam into a precision input device. Move, click, drag and
+              scroll across your entire desktop — without touching a thing. 60 FPS vision, sub-frame latency.
+            </p>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <Link to="/demo" className="btn-primary h-12 px-6 text-sm">
+                <Play className="w-4 h-4 fill-current" />
+                Try it live
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link to="/guide" className="btn-ghost h-12 px-6 text-sm">
+                <Hand className="w-4 h-4" />
+                See gesture guide
+              </Link>
+            </div>
+            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
+              <Stat label="FPS" value="60" />
+              <Stat label="Latency" value="<16ms" />
+              <Stat label="Gestures" value="9" />
+              <Stat label="Open source" value="MIT" />
             </div>
           </div>
-          <div className="relative aspect-video bg-black scan-grid overflow-hidden anim-scanline">
-            <HandGlyph />
-            <div className="absolute top-3 left-3 font-mono text-[9px] tracking-[0.3em] text-emerald-glow">
-              ▣ DETECTION · RIGHT HAND · 5/5
+
+          {/* Right: hero visual */}
+          <div className="relative">
+            <div className="absolute -inset-8 bg-gradient-primary opacity-20 blur-3xl rounded-full" />
+            <div className="relative panel-elevated overflow-hidden anim-float">
+              <div className="flex items-center justify-between px-4 h-10 border-b border-border bg-secondary/50">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-destructive/70" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-warning/70" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[hsl(var(--success))]/70" />
+                </div>
+                <div className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground">SENSOR · LIVE PREVIEW</div>
+                <div className="flex items-center gap-1.5 text-[10px] font-mono text-[hsl(var(--success))]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--success))] led anim-pulse-soft" />
+                  REC
+                </div>
+              </div>
+              <div className="relative aspect-[4/3] bg-gradient-to-br from-secondary to-background dot-grid overflow-hidden anim-scanline">
+                <HandGlyph />
+                <div className="absolute top-4 left-4 panel-glass px-2.5 py-1.5 font-mono text-[10px] tracking-wider">
+                  <span className="text-muted-foreground">DETECTED</span> <span className="text-gradient font-semibold">RIGHT · 5/5</span>
+                </div>
+                <div className="absolute top-4 right-4 panel-glass px-2.5 py-1.5 font-mono text-[10px]">
+                  <span className="text-muted-foreground">GESTURE</span> <span className="text-gradient font-semibold">PINCH</span>
+                </div>
+                <div className="absolute bottom-4 left-4 right-4 panel-glass px-3 py-2 flex items-center justify-between font-mono text-[11px]">
+                  <span><span className="text-muted-foreground">FPS</span> <b className="text-foreground">60.0</b></span>
+                  <span><span className="text-muted-foreground">LAT</span> <b className="text-foreground">12ms</b></span>
+                  <span><span className="text-muted-foreground">CONF</span> <b className="text-foreground">0.97</b></span>
+                </div>
+              </div>
             </div>
-            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between font-mono text-[10px] tracking-[0.25em] text-muted-foreground">
-              <span>FPS <span className="text-emerald-glow">60.0</span></span>
-              <span>LAT <span className="text-emerald-glow">12 ms</span></span>
-              <span>GST <span className="text-emerald-glow">PINCH</span></span>
+
+            {/* Floating chips */}
+            <div className="absolute -left-6 top-12 panel px-3 py-2 flex items-center gap-2 anim-float" style={{ animationDelay: "1s" }}>
+              <MousePointer2 className="w-4 h-4 text-primary" />
+              <span className="text-xs font-medium">Pinch → Click</span>
+            </div>
+            <div className="absolute -right-6 bottom-16 panel px-3 py-2 flex items-center gap-2 anim-float" style={{ animationDelay: "2s" }}>
+              <Activity className="w-4 h-4 text-[hsl(var(--accent))]" />
+              <span className="text-xs font-medium">Two-finger scroll</span>
             </div>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-baseline gap-2">
+      <span className="font-display text-2xl text-foreground">{value}</span>
+      <span className="text-xs text-muted-foreground">{label}</span>
+    </div>
   );
 }
 
@@ -124,41 +180,71 @@ function HandGlyph() {
   ];
   return (
     <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
+      <defs>
+        <linearGradient id="handGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="hsl(var(--primary))" />
+          <stop offset="100%" stopColor="hsl(var(--accent))" />
+        </linearGradient>
+      </defs>
+      {/* skeleton lines */}
+      <line x1="37" y1="42" x2="50" y2="60" stroke="url(#handGrad)" strokeWidth="0.6" opacity="0.6" />
+      <line x1="50" y1="28" x2="50" y2="60" stroke="url(#handGrad)" strokeWidth="0.6" opacity="0.6" />
+      <line x1="58" y1="28" x2="50" y2="60" stroke="url(#handGrad)" strokeWidth="0.6" opacity="0.6" />
+      <line x1="65" y1="34" x2="50" y2="60" stroke="url(#handGrad)" strokeWidth="0.6" opacity="0.6" />
+      <line x1="74" y1="44" x2="50" y2="60" stroke="url(#handGrad)" strokeWidth="0.6" opacity="0.6" />
       {dots.map(([x, y], i) => (
         <g key={i}>
-          <circle cx={x} cy={y} r="0.9" fill="hsl(var(--primary))" />
-          <circle cx={x} cy={y} r="2.4" fill="hsl(var(--primary) / 0.18)" />
+          <circle cx={x} cy={y} r="2.4" fill="hsl(var(--primary) / 0.15)" />
+          <circle cx={x} cy={y} r="1" fill="url(#handGrad)" />
         </g>
       ))}
-      <line x1="37" y1="42" x2="50" y2="60" stroke="hsl(var(--primary) / 0.6)" strokeWidth="0.5" />
-      <line x1="50" y1="28" x2="50" y2="60" stroke="hsl(var(--primary) / 0.6)" strokeWidth="0.5" />
-      <line x1="58" y1="28" x2="50" y2="60" stroke="hsl(var(--primary) / 0.6)" strokeWidth="0.5" />
-      <line x1="65" y1="34" x2="50" y2="60" stroke="hsl(var(--primary) / 0.6)" strokeWidth="0.5" />
-      <line x1="74" y1="44" x2="50" y2="60" stroke="hsl(var(--primary) / 0.6)" strokeWidth="0.5" />
-      <circle cx="37" cy="42" r="6" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.4" className="anim-pulse-soft" />
-      <circle cx="50" cy="28" r="6" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.4" className="anim-pulse-soft" />
+      {/* highlighted pinch points */}
+      <circle cx="37" cy="42" r="6" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" className="anim-pulse-soft" />
+      <circle cx="50" cy="28" r="6" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" className="anim-pulse-soft" />
     </svg>
   );
 }
 
-function Specs() {
-  const specs = [
-    { k: "VISION", v: "MediaPipe GPU" },
-    { k: "TARGET", v: "60 FPS @ 720p" },
-    { k: "BRIDGE", v: "ws://:8765" },
-    { k: "MODEL", v: "Hand Landmarker" },
-    { k: "LATENCY", v: "< 16.6 ms" },
-    { k: "PROTOCOL", v: "JSON over WS" },
-    { k: "DAEMON", v: "Python + uinput" },
-    { k: "PLATFORM", v: "Linux X11/Wayland" },
+function Marquee() {
+  const items = ["MediaPipe Vision", "Linux uinput Bridge", "X11 + Wayland", "Chromium / Edge", "60 FPS @ 720p", "JSON over WebSocket", "Open Source · MIT"];
+  return (
+    <section className="border-y border-border bg-secondary/40">
+      <div className="mx-auto max-w-7xl px-6 py-5 flex flex-wrap items-center justify-center gap-x-10 gap-y-2 text-xs font-mono tracking-wider text-muted-foreground">
+        {items.map((it, i) => (
+          <span key={it} className="flex items-center gap-3">
+            {i > 0 && <span className="w-1 h-1 rounded-full bg-border" />}
+            {it}
+          </span>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Features() {
+  const features = [
+    { icon: Eye, title: "Vision-first", desc: "MediaPipe Hand Landmarker tracks 21 keypoints per hand at 60 FPS, fully on-device." },
+    { icon: Zap, title: "Sub-frame latency", desc: "Smoothed pointer with EMA filtering and velocity² acceleration. Feels instant." },
+    { icon: Cpu, title: "Real OS events", desc: "A 200-line Python daemon turns gestures into kernel-level mouse events via uinput." },
+    { icon: Shield, title: "Privacy by design", desc: "Camera stream never leaves the browser. The daemon only receives intent payloads." },
+    { icon: Gauge, title: "Live telemetry", desc: "On-screen HUD shows handedness, finger states, pinch distance, and confidence." },
+    { icon: Sparkles, title: "9 gestures", desc: "Point, pinch, right-click, drag, scroll, thumbs-up, palm, fist — all out of the box." },
   ];
   return (
-    <section className="border-y hairline bg-card/30">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-5">
-        {specs.map((s) => (
-          <div key={s.k} className="font-mono">
-            <div className="text-[10px] tracking-[0.3em] text-muted-foreground">{s.k}</div>
-            <div className="text-sm tracking-[0.15em] text-foreground mt-1">{s.v}</div>
+    <section id="features" className="mx-auto max-w-7xl px-6 py-24 lg:py-32">
+      <SectionHead
+        eyebrow="Why OmniPoint"
+        title="Built for precision, designed for everyone."
+        subtitle="A complete vision-to-HID pipeline you can actually use — not a research demo."
+      />
+      <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {features.map((f) => (
+          <div key={f.title} className="panel p-6 group hover:shadow-lg hover:-translate-y-0.5 transition-all">
+            <div className="w-11 h-11 rounded-xl bg-gradient-primary flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+              <f.icon className="w-5 h-5 text-white" strokeWidth={2.2} />
+            </div>
+            <h3 className="mt-5 font-display text-lg text-foreground">{f.title}</h3>
+            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
           </div>
         ))}
       </div>
@@ -168,35 +254,45 @@ function Specs() {
 
 function Gestures() {
   const items = [
-    { g: "POINT",                a: "Hover / track",   d: "Index extended only — cursor follows the fingertip with no clicks emitted." },
-    { g: "INDEX MOVE",           a: "Move cursor",     d: "Index fingertip drives the OS pointer with EMA smoothing and velocity² acceleration." },
-    { g: "PINCH",                a: "Left click",      d: "Bring thumb + index together. Hysteresis + debounce prevents accidental fires." },
-    { g: "THREE-FINGER PINCH",   a: "Right click",     d: "Thumb meets BOTH index and middle. Triggers context menus and secondary actions." },
-    { g: "SUSTAINED PINCH",      a: "Drag",            d: "Hold the pinch to grab and move windows, files, or selections." },
-    { g: "TWO-FINGER UP/DOWN",   a: "Scroll",          d: "Index + middle vertical motion is mapped to the system scroll wheel." },
-    { g: "THUMBS UP",            a: "Confirm / OK",    d: "Thumb up, fingers folded — confirm dialogs, accept prompts, or send acks." },
-    { g: "OPEN PALM",            a: "Idle / park",     d: "Releases all input and parks the cursor. Safe default state." },
-    { g: "FIST",                 a: "Emergency stop",  d: "Tight fist — instant teardown. No further events leave the browser until rearmed." },
+    { g: "Point",                a: "Hover / track",   d: "Index extended only — cursor follows the fingertip with no clicks emitted." },
+    { g: "Index move",           a: "Move cursor",     d: "Index fingertip drives the OS pointer with EMA smoothing and velocity² acceleration." },
+    { g: "Pinch",                a: "Left click",      d: "Bring thumb + index together. Hysteresis + debounce prevents accidental fires." },
+    { g: "Three-finger pinch",   a: "Right click",     d: "Thumb meets BOTH index and middle. Triggers context menus and secondary actions." },
+    { g: "Sustained pinch",      a: "Drag",            d: "Hold the pinch to grab and move windows, files, or selections." },
+    { g: "Two-finger up/down",   a: "Scroll",          d: "Index + middle vertical motion is mapped to the system scroll wheel." },
+    { g: "Thumbs up",            a: "Confirm / OK",    d: "Thumb up, fingers folded — confirm dialogs, accept prompts, or send acks." },
+    { g: "Open palm",            a: "Idle / park",     d: "Releases all input and parks the cursor. Safe default state." },
+    { g: "Fist",                 a: "Emergency stop",  d: "Tight fist — instant teardown. No further events leave the browser until rearmed." },
   ];
   return (
-    <section id="gestures" className="mx-auto max-w-6xl px-4 sm:px-6 py-24">
-      <SectionHead eyebrow="GESTURE LIBRARY" title="Nine gestures. Full desktop control." />
-      <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
-        {items.map((i) => (
-          <div key={i.g} className="bg-background p-6 hover:bg-card transition-colors group">
-            <div className="font-mono text-[10px] tracking-[0.3em] text-emerald-glow group-hover:text-primary-glow transition-colors">{i.g}</div>
-            <div className="font-mono text-xl text-foreground mt-2 tracking-wider">{i.a}</div>
-            <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{i.d}</p>
-          </div>
-        ))}
-      </div>
-      <div className="mt-8 flex justify-center">
-        <Link
-          to="/guide"
-          className="font-mono text-[11px] tracking-[0.35em] h-11 px-5 inline-flex items-center border border-primary/60 text-primary hover:bg-primary/10 transition-colors"
-        >
-          ▣ OPEN INTERACTIVE GUIDE
-        </Link>
+    <section id="gestures" className="border-y border-border bg-secondary/30">
+      <div className="mx-auto max-w-7xl px-6 py-24 lg:py-32">
+        <SectionHead
+          eyebrow="Gesture library"
+          title="Nine gestures. Full desktop control."
+          subtitle="Every interaction your mouse can do — mapped to a natural hand pose."
+        />
+        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {items.map((i, idx) => (
+            <div key={i.g} className="panel p-6 hover:shadow-md hover:border-primary/30 transition-all group">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground">
+                  G{String(idx + 1).padStart(2, "0")}
+                </span>
+                <span className="chip text-[10px]">{i.a}</span>
+              </div>
+              <h3 className="mt-4 font-display text-xl text-foreground group-hover:text-gradient transition-colors">{i.g}</h3>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{i.d}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-10 flex justify-center">
+          <Link to="/guide" className="btn-primary h-12 px-6 text-sm">
+            <Hand className="w-4 h-4" />
+            Open interactive guide
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
       </div>
     </section>
   );
@@ -204,43 +300,53 @@ function Gestures() {
 
 function Architecture() {
   return (
-    <section id="architecture" className="border-t hairline bg-card/30">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-24">
-        <SectionHead eyebrow="ARCHITECTURE" title="Browser sees. Daemon acts." />
-        <div className="mt-12 grid lg:grid-cols-[1fr_auto_1fr] gap-6 items-stretch">
-          <ArchBox
-            title="Browser (Chromium)"
-            lines={["Webcam + MediaPipe", "Gesture engine + UI", "60 FPS canvas loop"]}
-          />
-          <div className="hidden lg:flex flex-col items-center justify-center font-mono text-[10px] tracking-[0.3em] text-muted-foreground">
-            <div className="text-emerald-glow">WS</div>
-            <div className="my-2 h-px w-24 bg-primary/60" />
-            <div>JSON</div>
-            <div className="mt-2">:8765</div>
+    <section id="architecture" className="mx-auto max-w-7xl px-6 py-24 lg:py-32">
+      <SectionHead
+        eyebrow="Architecture"
+        title="Browser sees. Daemon acts."
+        subtitle="A clean two-process design. The web app handles vision; a tiny native bridge handles HID."
+      />
+      <div className="mt-14 grid lg:grid-cols-[1fr_auto_1fr] gap-6 items-stretch">
+        <ArchBox
+          icon={Eye}
+          title="Browser (Chromium)"
+          lines={["Webcam + MediaPipe", "Gesture state machine", "60 FPS canvas loop", "Live telemetry HUD"]}
+        />
+        <div className="hidden lg:flex flex-col items-center justify-center gap-2">
+          <div className="font-mono text-[10px] tracking-[0.3em] text-primary">WS · :8765</div>
+          <div className="relative h-px w-32 bg-gradient-to-r from-transparent via-primary to-transparent">
+            <div className="absolute inset-0 anim-shimmer" />
           </div>
-          <ArchBox
-            title="Linux Bridge Daemon"
-            lines={["python-uinput (HID)", "Moves real OS cursor", "Click / drag / scroll"]}
-          />
+          <div className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground">JSON intents</div>
         </div>
-        <div className="mt-12 grid sm:grid-cols-3 gap-6 font-mono text-[11px]">
-          <FilePill path="src/lib/omnipoint/GestureEngine.ts" note="Vision + state machine" />
-          <FilePill path="src/lib/omnipoint/HIDBridge.ts" note="WS + heartbeat + kill-switch" />
-          <FilePill path="bridge/omnipoint_bridge.py" note="uinput daemon (X11+Wayland)" />
-        </div>
+        <ArchBox
+          icon={Cpu}
+          title="Linux Bridge Daemon"
+          lines={["python-uinput (HID)", "Moves real OS cursor", "Click / drag / scroll", "Heartbeat + kill switch"]}
+        />
+      </div>
+      <div className="mt-12 grid sm:grid-cols-3 gap-4">
+        <FilePill path="src/lib/omnipoint/GestureEngine.ts" note="Vision + state machine" />
+        <FilePill path="src/lib/omnipoint/HIDBridge.ts" note="WebSocket + heartbeat" />
+        <FilePill path="bridge/omnipoint_bridge.py" note="uinput daemon (X11 + Wayland)" />
       </div>
     </section>
   );
 }
 
-function ArchBox({ title, lines }: { title: string; lines: string[] }) {
+function ArchBox({ icon: Icon, title, lines }: { icon: typeof Eye; title: string; lines: string[] }) {
   return (
-    <div className="panel p-6">
-      <div className="font-mono text-[10px] tracking-[0.3em] text-emerald-glow mb-3">{title.toUpperCase()}</div>
-      <ul className="font-mono text-sm text-foreground space-y-2 tracking-wide">
+    <div className="panel-elevated p-7">
+      <div className="flex items-center gap-3 mb-5">
+        <div className="w-10 h-10 rounded-lg bg-gradient-primary flex items-center justify-center shadow-md">
+          <Icon className="w-5 h-5 text-white" strokeWidth={2.2} />
+        </div>
+        <h3 className="font-display text-lg text-foreground">{title}</h3>
+      </div>
+      <ul className="space-y-2.5">
         {lines.map((l) => (
-          <li key={l} className="flex items-start gap-2">
-            <span className="text-primary mt-1.5 w-1 h-1 rounded-full bg-current shrink-0" />
+          <li key={l} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gradient-primary shrink-0" />
             {l}
           </li>
         ))}
@@ -252,83 +358,127 @@ function ArchBox({ title, lines }: { title: string; lines: string[] }) {
 function FilePill({ path, note }: { path: string; note: string }) {
   return (
     <div className="panel p-4">
-      <div className="text-emerald-glow break-all">{path}</div>
-      <div className="text-muted-foreground mt-1 tracking-[0.2em] text-[10px]">{note}</div>
+      <div className="font-mono text-xs text-gradient break-all font-medium">{path}</div>
+      <div className="text-muted-foreground mt-1 text-xs">{note}</div>
     </div>
   );
 }
 
 function Quickstart() {
   return (
-    <section id="quickstart" className="mx-auto max-w-6xl px-4 sm:px-6 py-24">
-      <SectionHead eyebrow="QUICKSTART" title="Up and running in 60 seconds." />
-      <div className="mt-12 grid lg:grid-cols-2 gap-6">
-        <CodeBlock
-          step="01"
-          title="Run the Linux bridge daemon"
-          code={`cd bridge
+    <section id="quickstart" className="border-t border-border bg-secondary/30">
+      <div className="mx-auto max-w-7xl px-6 py-24 lg:py-32">
+        <SectionHead
+          eyebrow="Quickstart"
+          title="Up and running in 60 seconds."
+          subtitle="The browser demo works standalone. Add the Linux daemon for system-wide control."
+        />
+        <div className="mt-14 grid lg:grid-cols-2 gap-5">
+          <CodeBlock
+            step="01"
+            title="Run the Linux bridge"
+            code={`cd bridge
 sudo modprobe uinput
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python3 omnipoint_bridge.py`}
-        />
-        <CodeBlock
-          step="02"
-          title="Open the web app"
-          code={`# In Chromium, visit your deployment URL
+          />
+          <CodeBlock
+            step="02"
+            title="Open the web app"
+            code={`# Visit your deployment URL in Chromium
 # or run locally:
 npm install
 npm run dev
 
-# Click "INITIALIZE SENSOR" and grant camera access`}
-        />
+# Click "Launch demo" and grant camera access`}
+          />
+        </div>
       </div>
-      <p className="mt-6 font-mono text-[11px] text-muted-foreground tracking-wide max-w-3xl">
-        The browser-only demo works without the daemon — you can preview gesture detection in the
-        <Link to="/demo" className="text-emerald-glow ml-1">live sensor view</Link>. The daemon is only required
-        for system-wide cursor control on Linux.
-      </p>
     </section>
   );
 }
 
 function CodeBlock({ step, title, code }: { step: string; title: string; code: string }) {
   return (
-    <div className="panel">
-      <div className="border-b hairline px-4 h-10 flex items-center justify-between">
-        <div className="flex items-center gap-3 font-mono text-[10px] tracking-[0.3em]">
-          <span className="text-emerald-glow">{step}</span>
-          <span className="text-foreground">{title.toUpperCase()}</span>
+    <div className="panel-elevated overflow-hidden">
+      <div className="border-b border-border px-5 h-12 flex items-center justify-between bg-secondary/50">
+        <div className="flex items-center gap-3">
+          <span className="w-7 h-7 rounded-md bg-gradient-primary text-primary-foreground font-mono text-xs flex items-center justify-center shadow-sm">
+            {step}
+          </span>
+          <span className="font-display text-sm text-foreground">{title}</span>
         </div>
-        <span className="font-mono text-[10px] text-muted-foreground tracking-[0.3em]">SH</span>
+        <span className="font-mono text-[10px] text-muted-foreground tracking-[0.2em]">SHELL</span>
       </div>
-      <pre className="p-4 font-mono text-[12px] text-foreground/90 overflow-x-auto leading-relaxed">{code}</pre>
+      <pre className="p-5 font-mono text-[12.5px] text-foreground/90 overflow-x-auto leading-relaxed bg-card">{code}</pre>
     </div>
   );
 }
 
-function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
+function CTA() {
   return (
-    <div>
-      <div className="font-mono text-[10px] tracking-[0.5em] text-primary">{eyebrow}</div>
-      <h2 className="mt-3 font-mono text-3xl sm:text-4xl text-foreground tracking-tight max-w-2xl">
+    <section className="mx-auto max-w-7xl px-6 py-24">
+      <div className="relative panel-elevated overflow-hidden p-10 sm:p-14 bg-mesh">
+        <div className="relative z-10 max-w-2xl">
+          <div className="chip mb-5">
+            <Sparkles className="w-3 h-3" />
+            Ready when you are
+          </div>
+          <h2 className="font-display text-3xl sm:text-5xl leading-tight">
+            Stop touching your <span className="text-gradient">mouse</span>.
+          </h2>
+          <p className="mt-4 text-muted-foreground text-lg max-w-lg">
+            Try the browser demo in under a minute — no install required.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link to="/demo" className="btn-primary h-12 px-6 text-sm">
+              <Play className="w-4 h-4 fill-current" />
+              Launch the demo
+            </Link>
+            <Link to="/guide" className="btn-ghost h-12 px-6 text-sm">
+              Read the guide
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+        <div className="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-gradient-primary opacity-20 blur-3xl" />
+        <div className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-[hsl(var(--accent))] opacity-15 blur-2xl" />
+      </div>
+    </section>
+  );
+}
+
+function SectionHead({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle?: string }) {
+  return (
+    <div className="max-w-2xl">
+      <div className="chip mb-4">{eyebrow}</div>
+      <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-foreground leading-[1.1]">
         {title}
       </h2>
+      {subtitle && <p className="mt-4 text-muted-foreground text-lg">{subtitle}</p>}
     </div>
   );
 }
 
 function Footer() {
   return (
-    <footer className="border-t hairline">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-wrap items-center justify-between gap-3 font-mono text-[10px] tracking-[0.3em] text-muted-foreground">
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary led" />
-          OMNIPOINT HCI · OPEN SOURCE
+    <footer className="border-t border-border">
+      <div className="mx-auto max-w-7xl px-6 py-10 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-md bg-gradient-primary flex items-center justify-center">
+            <Hand className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
+          </div>
+          <span className="font-display text-sm">OmniPoint HCI</span>
+          <span className="text-xs text-muted-foreground">· Open source · MIT</span>
         </div>
-        <div className="flex items-center gap-5">
-          <Link to="/demo" className="hover:text-foreground">DEMO</Link>
-          <a href="#quickstart" className="hover:text-foreground">DOCS</a>
+        <div className="flex items-center gap-6 text-sm text-muted-foreground">
+          <Link to="/demo" className="hover:text-foreground transition-colors">Demo</Link>
+          <Link to="/guide" className="hover:text-foreground transition-colors">Guide</Link>
+          <a href="#quickstart" className="hover:text-foreground transition-colors">Docs</a>
+          <a href="https://github.com/muazbinshafi/airtouch-v3" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors flex items-center gap-1.5">
+            <Github className="w-4 h-4" /> GitHub
+          </a>
         </div>
       </div>
     </footer>

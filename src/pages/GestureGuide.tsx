@@ -17,22 +17,23 @@ const GestureGuide = () => {
   }, []);
 
   return (
-    <main className="min-h-screen bg-background text-foreground scan-grid">
+    <main className="min-h-screen bg-background text-foreground">
       <Header />
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 pt-16 pb-8">
-        <div className="font-mono text-[10px] tracking-[0.5em] text-primary mb-4">
-          INTERACTIVE TUTORIAL · v1.0
+      <section className="mx-auto max-w-7xl px-6 pt-16 pb-8">
+        <div className="chip mb-5">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary led" />
+          Interactive tutorial · v1.0
         </div>
-        <h1 className="font-mono text-3xl sm:text-5xl tracking-tight leading-[1.1] max-w-3xl">
-          Learn the gestures with <span className="text-emerald-glow">live animations</span>.
+        <h1 className="font-display text-4xl sm:text-6xl leading-[1.05] max-w-3xl">
+          Learn the gestures with <span className="text-gradient">live animations</span>.
         </h1>
-        <p className="mt-5 max-w-2xl text-muted-foreground leading-relaxed">
+        <p className="mt-5 max-w-2xl text-muted-foreground text-lg leading-relaxed">
           Each card below demonstrates exactly how your hand should move. Practice in front
           of the camera until the on-screen telemetry matches the gesture name.
         </p>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 pb-24 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <section className="mx-auto max-w-7xl px-6 pb-24 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         <GestureCard
           step="01"
           name="POINT"
@@ -115,29 +116,25 @@ const GestureGuide = () => {
         </GestureCard>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 pb-24">
-        <div className="panel p-6 sm:p-10 glow-emerald">
-          <div className="font-mono text-[10px] tracking-[0.3em] text-emerald-glow mb-3">▣ READY?</div>
-          <h2 className="font-mono text-2xl sm:text-3xl">Try it live.</h2>
-          <p className="mt-3 text-muted-foreground max-w-xl">
-            Launch the demo, allow camera access, and start with INDEX MOVE.
-            The telemetry panel on the right tells you exactly which gesture is detected.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              to="/demo"
-              className="font-mono text-xs tracking-[0.35em] h-12 px-6 inline-flex items-center border border-primary bg-primary/10 text-primary hover:bg-primary/20 led transition-colors"
-              style={{ boxShadow: "0 0 18px hsl(var(--primary) / 0.4)" }}
-            >
-              ▶ LAUNCH DEMO
-            </Link>
-            <Link
-              to="/"
-              className="font-mono text-xs tracking-[0.35em] h-12 px-6 inline-flex items-center border hairline text-foreground hover:bg-card transition-colors"
-            >
-              ← BACK HOME
-            </Link>
+      <section className="mx-auto max-w-7xl px-6 pb-24">
+        <div className="panel-elevated p-8 sm:p-12 bg-mesh relative overflow-hidden">
+          <div className="relative z-10">
+            <div className="chip mb-4">▣ Ready?</div>
+            <h2 className="font-display text-3xl sm:text-4xl">Try it live.</h2>
+            <p className="mt-3 text-muted-foreground max-w-xl text-lg">
+              Launch the demo, allow camera access, and start with INDEX MOVE.
+              The telemetry panel on the right tells you exactly which gesture is detected.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link to="/demo" className="btn-primary h-12 px-6 text-sm">
+                ▶ Launch demo
+              </Link>
+              <Link to="/" className="btn-ghost h-12 px-6 text-sm">
+                ← Back home
+              </Link>
+            </div>
           </div>
+          <div className="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-gradient-primary opacity-20 blur-3xl" />
         </div>
       </section>
     </main>
@@ -146,23 +143,24 @@ const GestureGuide = () => {
 
 function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b hairline bg-background/80 backdrop-blur">
-      <div className="mx-auto max-w-6xl flex items-center justify-between px-4 sm:px-6 h-14">
-        <Link to="/" className="flex items-center gap-2 font-mono">
-          <span className="w-2 h-2 rounded-full bg-primary led anim-pulse-soft" />
-          <span className="text-emerald-glow text-[11px] tracking-[0.4em]">OMNIPOINT</span>
-          <span className="text-muted-foreground text-[11px] tracking-[0.3em]">// GUIDE</span>
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl">
+      <div className="mx-auto max-w-7xl flex items-center justify-between px-6 h-16">
+        <Link to="/" className="flex items-center gap-2.5">
+          <div className="relative w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center shadow-md">
+            <span className="font-mono text-xs text-white font-bold">O</span>
+          </div>
+          <div className="flex flex-col leading-tight">
+            <span className="font-display text-[15px]">OmniPoint</span>
+            <span className="font-mono text-[9px] tracking-[0.25em] text-muted-foreground -mt-0.5">GUIDE</span>
+          </div>
         </Link>
-        <nav className="hidden sm:flex items-center gap-6 font-mono text-[11px] tracking-[0.25em] text-muted-foreground">
-          <Link to="/" className="hover:text-foreground transition-colors">HOME</Link>
-          <Link to="/guide" className="text-foreground">GUIDE</Link>
-          <Link to="/demo" className="hover:text-foreground transition-colors">DEMO</Link>
+        <nav className="hidden sm:flex items-center gap-8 text-sm font-medium text-muted-foreground">
+          <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+          <Link to="/guide" className="text-foreground">Guide</Link>
+          <Link to="/demo" className="hover:text-foreground transition-colors">Demo</Link>
         </nav>
-        <Link
-          to="/demo"
-          className="font-mono text-[11px] tracking-[0.3em] px-3 h-9 inline-flex items-center border border-primary text-primary hover:bg-primary/10 transition-colors"
-        >
-          ▶ LAUNCH
+        <Link to="/demo" className="btn-primary h-10 px-4 text-sm">
+          ▶ Launch
         </Link>
       </div>
     </header>
@@ -180,32 +178,34 @@ function GestureCard({
 }) {
   const [playing, setPlaying] = useState(true);
   return (
-    <div className="panel overflow-hidden flex flex-col">
-      <div className="border-b hairline px-3 h-9 flex items-center justify-between">
-        <div className="font-mono text-[10px] tracking-[0.3em] text-emerald-glow">
-          STEP {step} // {name}
+    <div className="panel overflow-hidden flex flex-col hover:shadow-lg hover:-translate-y-0.5 transition-all">
+      <div className="border-b border-border px-4 h-11 flex items-center justify-between bg-secondary/40">
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground">STEP {step}</span>
+          <span className="font-display text-sm">{name}</span>
         </div>
         <button
           onClick={() => setPlaying((p) => !p)}
-          className="font-mono text-[10px] tracking-[0.25em] text-muted-foreground hover:text-primary transition-colors"
+          className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors"
         >
           {playing ? "❚❚ PAUSE" : "▶ PLAY"}
         </button>
       </div>
-      <div className={`relative aspect-video bg-black scan-grid overflow-hidden ${playing ? "" : "opacity-60"}`}>
-        <div className={playing ? "" : "[&_*]:!animation-play-state-paused"} style={{ animationPlayState: playing ? "running" : "paused" }}>
+      <div className={`relative aspect-video bg-gradient-to-br from-secondary/60 to-card dot-grid overflow-hidden ${playing ? "" : "opacity-60"}`}>
+        <div style={{ animationPlayState: playing ? "running" : "paused" }}>
           {children}
         </div>
-        <div className="absolute top-2 right-2 font-mono text-[9px] tracking-[0.25em] text-emerald-glow">
-          ● LIVE
+        <div className="absolute top-2 right-2 chip text-[9px] py-0.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary led anim-pulse-soft" />
+          LIVE
         </div>
       </div>
-      <div className="p-4 border-t hairline">
-        <div className="flex items-baseline gap-3">
-          <span className="font-mono text-[10px] tracking-[0.25em] text-muted-foreground">ACTION →</span>
-          <span className="font-mono text-sm text-foreground tracking-[0.1em]">{action}</span>
+      <div className="p-5">
+        <div className="flex items-center justify-between mb-2">
+          <span className="font-display text-sm text-gradient">{action}</span>
+          <span className="font-mono text-[10px] text-muted-foreground tracking-wider">→</span>
         </div>
-        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{tip}</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">{tip}</p>
       </div>
     </div>
   );
