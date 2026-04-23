@@ -287,17 +287,59 @@ export class GestureEngine {
     const pinch = Math.hypot(dx, dy, dz);
     const pressure = Math.min(1, Math.max(0, 1 - pinch / 0.15));
 
-    // Scroll detection: index+middle extended, ring+pinky folded
+    // ---- Finger state detection (extended/folded) ----
+    // Index/middle/ring/pinky: tip above PIP (lower y) means extended.
     const indexExt = indexTip.y < indexPip.y - 0.02;
     const middleExt = middleTip.y < middlePip.y - 0.02;
-    const ringFold = ringTip.y > ringPip.y - 0.005;
-    const pinkyFold = pinkyTip.y > pinkyPip.y - 0.005;
-    const scrollMode = indexExt && middleExt && ringFold && pinkyFold;
-    void wrist;
+    const ringExt = ringTip.y < ringPip.y - 0.02;
+    const pinkyExt = pinkyTip.y < pinkyPip.y - 0.02;
+    // Thumb: compare horizontal distance from wrist (handedness-aware approximation).
+    const thumbIp = lm[3];
+    const thumbExt = Math.hypot(thumbTip.x - wrist.x, thumbTip.y - wrist.y) >
+                     Math.hypot(thumbIp.x - wrist.x, thumbIp.y - wrist.y) + 0.01;
+
+    const fingersExtended: [boolean, boolean, boolean, boolean, boolean] =
+      [thumbExt, indexExt, middleExt, ringExt, pinkyExt];
+    const fingerCount = fingersExtended.filter(Boolean).length;
+    const rawHandLabel = result.handedness?.[0]?.[0]?.categoryName ?? "";
+    // MediaPipe returns mirrored handedness for selfie cam — flip it.
+    const handedness = rawHandLabel === "Left" ? "Right" : rawHandLabel === "Right" ? "Left" : "none";
+
+    // Three-finger pinch (thumb + index + middle close together) → right click
+    const tmPinch = Math.hypot(
+      thumbTip.x - middleTip.x,
+      thumbTip.y - middleTip.y,
+      thumbTip.z - middleTip.z,
+    );
+
+    const scrollMode = indexExt && middleExt && !ringExt && !pinkyExt;
+    const isFist = !indexExt && !middleExt && !ringExt && !pinkyExt && !thumbExt;
+    const isOpenPalm = fingerCount === 5;
+    const isThumbsUp = thumbExt && !indexExt && !middleExt && !ringExt && !pinkyExt;
+    const isPointing = indexExt && !middleExt && !ringExt && !pinkyExt;
+    const isThreePinch = pinch < this.config.clickThreshold &&
+                         tmPinch < this.config.clickThreshold * 1.4 &&
+                         indexExt && middleExt;
 
     let gesture: GestureKind = "none";
 
-    if (scrollMode) {
+    if (isFist) {
+      gesture = "fist";
+      this.clickState = "IDLE";
+      this.lastScrollY = null;
+    } else if (isOpenPalm) {
+      gesture = "open_palm";
+      this.clickState = "IDLE";
+      this.lastScrollY = null;
+    } else if (isThumbsUp) {
+      gesture = "thumbs_up";
+      this.clickState = "IDLE";
+      this.lastScrollY = null;
+    } else if (isThreePinch) {
+      gesture = "right_click";
+      this.clickState = "IDLE";
+      this.lastScrollY = null;
+    } else if (scrollMode) {
       // Scroll: vertical delta of index tip
       if (this.lastScrollY != null) {
         const sdy = iy - this.lastScrollY;
@@ -320,6 +362,7 @@ export class GestureEngine {
           }
         } else {
           this.pinchStartTs = 0;
+          if (isPointing) gesture = "point";
         }
       } else if (this.clickState === "CLICK_DOWN") {
         if (pinch >= this.config.releaseThreshold) {
@@ -346,6 +389,11 @@ export class GestureEngine {
       cursorX: this.cursor.x,
       cursorY: this.cursor.y,
       gesture,
+      handPresent: true,
+      handedness,
+      fingersExtended,
+      fingerCount,
+      pinchDistance: pinch,
     });
 
     this.emitMotion(gesture, pressure);
