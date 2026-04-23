@@ -5,10 +5,12 @@ import { StatusBar } from "@/components/omnipoint/StatusBar";
 import { SensorPanel } from "@/components/omnipoint/SensorPanel";
 import { TelemetryPanel } from "@/components/omnipoint/TelemetryPanel";
 import { BridgeTroubleshooter } from "@/components/omnipoint/BridgeTroubleshooter";
+import { ControlModeBar, type ControlMode } from "@/components/omnipoint/ControlModeBar";
 import { GestureEngine, defaultConfig, type EngineConfig } from "@/lib/omnipoint/GestureEngine";
 import { HIDBridge } from "@/lib/omnipoint/HIDBridge";
 import { TelemetryStore } from "@/lib/omnipoint/TelemetryStore";
 import { ThemeSettings } from "@/components/ThemeSettings";
+import { useBrowserCursor } from "@/hooks/useBrowserCursor";
 
 const Demo = () => {
   const [initialized, setInitialized] = useState(false);
@@ -20,10 +22,13 @@ const Demo = () => {
 
   const [config, setConfigState] = useState<EngineConfig>(defaultConfig);
   const [bridgeUrl, setBridgeUrl] = useState("ws://localhost:8765");
+  const [controlMode, setControlMode] = useState<ControlMode>("browser");
 
   const engineRef = useRef<GestureEngine | null>(null);
   const bridgeRef = useRef<HIDBridge | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+
+  const browserCursor = useBrowserCursor(initialized && controlMode === "browser", "pointer");
 
   useEffect(() => {
     document.title = "Live Sensor — OmniPoint HCI";
@@ -82,7 +87,18 @@ const Demo = () => {
       const bridge = new HIDBridge(bridgeUrl);
       bridgeRef.current = bridge;
       TelemetryStore.set({ bridgeUrl });
-      bridge.connect();
+      // In browser-only mode we bypass the WebSocket entirely — gestures
+      // are consumed locally by BrowserCursor through the TelemetryStore.
+      if (controlMode === "bridge") {
+        bridge.connect();
+      } else {
+        TelemetryStore.set({
+          wsState: "connected",
+          bridgeValidated: true,
+          bridgeProbe: "ok",
+          bridgeProbeMsg: "Browser-only mode",
+        });
+      }
 
       const engine = new GestureEngine(video, canvas, bridge, config);
       engineRef.current = engine;
@@ -105,7 +121,7 @@ const Demo = () => {
       streamRef.current?.getTracks().forEach((t) => t.stop());
       streamRef.current = null;
     }
-  }, [bridgeUrl, config]);
+  }, [bridgeUrl, config, controlMode]);
 
   useEffect(() => {
     if (engineRef.current) engineRef.current.config = config;
@@ -114,6 +130,29 @@ const Demo = () => {
   useEffect(() => {
     TelemetryStore.set({ bridgeUrl });
   }, [bridgeUrl]);
+
+  // React to control mode changes after init: connect / disconnect the
+  // bridge and flip the validated flag accordingly.
+  useEffect(() => {
+    if (!initialized || !bridgeRef.current) return;
+    if (controlMode === "bridge") {
+      TelemetryStore.set({ bridgeValidated: false, bridgeProbeMsg: "Switched to bridge mode — testing…" });
+      bridgeRef.current.setUrl(bridgeUrl);
+      bridgeRef.current.probe();
+    } else {
+      bridgeRef.current.emergencyStop();
+      bridgeRef.current.rearm(); // clear stopped flag
+      bridgeRef.current.emergencyStop(); // close socket but keep stop?
+      // Simpler: just close and mark validated for browser mode.
+      TelemetryStore.set({
+        wsState: "connected",
+        bridgeValidated: true,
+        bridgeProbe: "ok",
+        bridgeProbeMsg: "Browser-only mode",
+        emergencyStop: false,
+      });
+    }
+  }, [controlMode, initialized, bridgeUrl]);
 
   useEffect(() => {
     return () => {
@@ -161,6 +200,15 @@ const Demo = () => {
         <h1 className="sr-only">OmniPoint HCI — Live Sensor</h1>
         {!showInit && <StatusBar onEmergencyToggle={handleEmergencyToggle} />}
         {!showInit && (
+          <ControlModeBar
+            controlMode={controlMode}
+            onControlModeChange={setControlMode}
+            cursorMode={browserCursor.mode}
+            onCursorModeChange={browserCursor.setMode}
+            onClearDrawing={browserCursor.clearDrawing}
+          />
+        )}
+        {!showInit && (
           <div className="absolute top-2 right-2 z-50">
             <Link
               to="/"
@@ -202,6 +250,8 @@ const Demo = () => {
               error={error}
               onInitialize={initialize}
               initializing={initializing}
+              controlMode={controlMode}
+              onControlModeChange={setControlMode}
             />
           </div>
         )}
@@ -215,7 +265,7 @@ const Demo = () => {
         <ThemeSettings variant="floating" />
       </main>
     ),
-    [showInit, status, progress, error, initialize, initializing, config, setConfig, bridgeUrl, handleEmergencyToggle, handleReconnect, handleSetOrigin, handleTestBridge, troubleshooterOpen],
+    [showInit, status, progress, error, initialize, initializing, config, setConfig, bridgeUrl, handleEmergencyToggle, handleReconnect, handleSetOrigin, handleTestBridge, troubleshooterOpen, controlMode, browserCursor.mode, browserCursor.setMode, browserCursor.clearDrawing],
   );
 };
 
