@@ -165,24 +165,35 @@ function Specs() {
 
 function Gestures() {
   const items = [
-    { g: "INDEX MOVE", a: "Move cursor", d: "Index fingertip drives the OS pointer with EMA smoothing and velocity² acceleration." },
-    { g: "PINCH", a: "Left click", d: "Bring thumb + index together. Hysteresis + debounce prevents accidental fires." },
-    { g: "SUSTAINED PINCH", a: "Drag", d: "Hold the pinch to grab and move windows, files, or selections." },
-    { g: "TWO-FINGER UP/DOWN", a: "Scroll", d: "Index + middle vertical motion is mapped to the system scroll wheel." },
-    { g: "OPEN PALM", a: "Idle", d: "Releases all input and parks the cursor. Safe default state." },
-    { g: "EMERGENCY STOP", a: "Kill switch", d: "Instant teardown — no further events leave the browser until rearmed." },
+    { g: "POINT",                a: "Hover / track",   d: "Index extended only — cursor follows the fingertip with no clicks emitted." },
+    { g: "INDEX MOVE",           a: "Move cursor",     d: "Index fingertip drives the OS pointer with EMA smoothing and velocity² acceleration." },
+    { g: "PINCH",                a: "Left click",      d: "Bring thumb + index together. Hysteresis + debounce prevents accidental fires." },
+    { g: "THREE-FINGER PINCH",   a: "Right click",     d: "Thumb meets BOTH index and middle. Triggers context menus and secondary actions." },
+    { g: "SUSTAINED PINCH",      a: "Drag",            d: "Hold the pinch to grab and move windows, files, or selections." },
+    { g: "TWO-FINGER UP/DOWN",   a: "Scroll",          d: "Index + middle vertical motion is mapped to the system scroll wheel." },
+    { g: "THUMBS UP",            a: "Confirm / OK",    d: "Thumb up, fingers folded — confirm dialogs, accept prompts, or send acks." },
+    { g: "OPEN PALM",            a: "Idle / park",     d: "Releases all input and parks the cursor. Safe default state." },
+    { g: "FIST",                 a: "Emergency stop",  d: "Tight fist — instant teardown. No further events leave the browser until rearmed." },
   ];
   return (
     <section id="gestures" className="mx-auto max-w-6xl px-4 sm:px-6 py-24">
-      <SectionHead eyebrow="GESTURE LIBRARY" title="Six gestures. Full desktop control." />
+      <SectionHead eyebrow="GESTURE LIBRARY" title="Nine gestures. Full desktop control." />
       <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
         {items.map((i) => (
-          <div key={i.g} className="bg-background p-6 hover:bg-card transition-colors">
-            <div className="font-mono text-[10px] tracking-[0.3em] text-emerald-glow">{i.g}</div>
+          <div key={i.g} className="bg-background p-6 hover:bg-card transition-colors group">
+            <div className="font-mono text-[10px] tracking-[0.3em] text-emerald-glow group-hover:text-primary-glow transition-colors">{i.g}</div>
             <div className="font-mono text-xl text-foreground mt-2 tracking-wider">{i.a}</div>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{i.d}</p>
           </div>
         ))}
+      </div>
+      <div className="mt-8 flex justify-center">
+        <Link
+          to="/guide"
+          className="font-mono text-[11px] tracking-[0.35em] h-11 px-5 inline-flex items-center border border-primary/60 text-primary hover:bg-primary/10 transition-colors"
+        >
+          ▣ OPEN INTERACTIVE GUIDE
+        </Link>
       </div>
     </section>
   );

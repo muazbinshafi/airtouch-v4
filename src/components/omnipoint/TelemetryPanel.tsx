@@ -157,10 +157,14 @@ export function TelemetryPanel({ config, setConfig, bridgeUrl, setBridgeUrl, onR
       <div className="p-3 mt-auto">
         <SectionTitle>GESTURE GUIDE</SectionTitle>
         <ul className="font-mono text-[10px] text-muted-foreground space-y-1 leading-relaxed">
-          <li><span className="text-primary">▸</span> INDEX TIP — cursor</li>
-          <li><span className="text-primary">▸</span> THUMB+INDEX PINCH — click</li>
+          <li><span className="text-primary">▸</span> INDEX ONLY — point / hover</li>
+          <li><span className="text-primary">▸</span> THUMB+INDEX PINCH — left click</li>
+          <li><span className="text-primary">▸</span> THUMB+INDEX+MIDDLE — right click</li>
           <li><span className="text-primary">▸</span> SUSTAINED PINCH — drag</li>
           <li><span className="text-primary">▸</span> INDEX+MIDDLE UP/DOWN — scroll</li>
+          <li><span className="text-primary">▸</span> THUMBS UP — confirm</li>
+          <li><span className="text-primary">▸</span> OPEN PALM — idle / park</li>
+          <li><span className="text-destructive">▸</span> FIST — emergency stop</li>
         </ul>
       </div>
     </aside>
