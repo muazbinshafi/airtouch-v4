@@ -32,9 +32,18 @@ const GestureGuide = () => {
         </p>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 pb-24 grid gap-6 md:grid-cols-2">
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 pb-24 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <GestureCard
           step="01"
+          name="POINT"
+          action="Track / hover"
+          tip="Extend only your index finger. The cursor follows your fingertip — no clicks emitted."
+        >
+          <PointAnim />
+        </GestureCard>
+
+        <GestureCard
+          step="02"
           name="INDEX MOVE"
           action="Move cursor"
           tip="Keep your wrist relaxed. Slow movements = pixel precision."
@@ -43,7 +52,7 @@ const GestureGuide = () => {
         </GestureCard>
 
         <GestureCard
-          step="02"
+          step="03"
           name="PINCH"
           action="Left click"
           tip="Tap thumb + index briefly. Release within ~200 ms to register a click."
@@ -52,7 +61,16 @@ const GestureGuide = () => {
         </GestureCard>
 
         <GestureCard
-          step="03"
+          step="04"
+          name="THREE-FINGER PINCH"
+          action="Right click"
+          tip="Touch thumb to BOTH index and middle fingertips together. Opens context menus."
+        >
+          <RightClickAnim />
+        </GestureCard>
+
+        <GestureCard
+          step="05"
           name="SUSTAINED PINCH"
           action="Drag"
           tip="Hold the pinch and move. Release to drop."
@@ -61,7 +79,7 @@ const GestureGuide = () => {
         </GestureCard>
 
         <GestureCard
-          step="04"
+          step="06"
           name="TWO-FINGER SCROLL"
           action="Scroll up / down"
           tip="Extend index + middle. Move them up to scroll up, down to scroll down."
@@ -70,7 +88,16 @@ const GestureGuide = () => {
         </GestureCard>
 
         <GestureCard
-          step="05"
+          step="07"
+          name="THUMBS UP"
+          action="Confirm / OK"
+          tip="Thumb up, all other fingers folded. Useful for confirmations and dismissing dialogs."
+        >
+          <ThumbsUpAnim />
+        </GestureCard>
+
+        <GestureCard
+          step="08"
           name="OPEN PALM"
           action="Idle / park"
           tip="Spread all five fingers to release input safely."
@@ -79,7 +106,7 @@ const GestureGuide = () => {
         </GestureCard>
 
         <GestureCard
-          step="06"
+          step="09"
           name="FIST"
           action="Emergency stop"
           tip="Make a tight fist for 500 ms to instantly disable the bridge."
