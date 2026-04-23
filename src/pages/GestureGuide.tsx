@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { ThemeSettings, ThemeToggleQuick } from "@/components/ThemeSettings";
 
 const GestureGuide = () => {
   useEffect(() => {
@@ -33,85 +34,41 @@ const GestureGuide = () => {
         </p>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 pb-24 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        <GestureCard
-          step="01"
-          name="POINT"
-          action="Track / hover"
-          tip="Extend only your index finger. The cursor follows your fingertip — no clicks emitted."
-        >
+      <section className="mx-auto max-w-7xl px-6 pb-24 grid gap-5 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
+        <GestureCard index={0} step="01" name="POINT" action="Track / hover"
+          tip="Extend only your index finger. The cursor follows your fingertip — no clicks emitted.">
           <PointAnim />
         </GestureCard>
-
-        <GestureCard
-          step="02"
-          name="INDEX MOVE"
-          action="Move cursor"
-          tip="Keep your wrist relaxed. Slow movements = pixel precision."
-        >
+        <GestureCard index={1} step="02" name="INDEX MOVE" action="Move cursor"
+          tip="Keep your wrist relaxed. Slow movements = pixel precision.">
           <IndexMoveAnim />
         </GestureCard>
-
-        <GestureCard
-          step="03"
-          name="PINCH"
-          action="Left click"
-          tip="Tap thumb + index briefly. Release within ~200 ms to register a click."
-        >
+        <GestureCard index={2} step="03" name="PINCH" action="Left click"
+          tip="Tap thumb + index briefly. Release within ~200 ms to register a click.">
           <PinchAnim />
         </GestureCard>
-
-        <GestureCard
-          step="04"
-          name="THREE-FINGER PINCH"
-          action="Right click"
-          tip="Touch thumb to BOTH index and middle fingertips together. Opens context menus."
-        >
+        <GestureCard index={3} step="04" name="THREE-FINGER PINCH" action="Right click"
+          tip="Touch thumb to BOTH index and middle fingertips together. Opens context menus.">
           <RightClickAnim />
         </GestureCard>
-
-        <GestureCard
-          step="05"
-          name="SUSTAINED PINCH"
-          action="Drag"
-          tip="Hold the pinch and move. Release to drop."
-        >
+        <GestureCard index={4} step="05" name="SUSTAINED PINCH" action="Drag"
+          tip="Hold the pinch and move. Release to drop.">
           <DragAnim />
         </GestureCard>
-
-        <GestureCard
-          step="06"
-          name="TWO-FINGER SCROLL"
-          action="Scroll up / down"
-          tip="Extend index + middle. Move them up to scroll up, down to scroll down."
-        >
+        <GestureCard index={5} step="06" name="TWO-FINGER SCROLL" action="Scroll up / down"
+          tip="Extend index + middle. Move them up to scroll up, down to scroll down.">
           <ScrollAnim />
         </GestureCard>
-
-        <GestureCard
-          step="07"
-          name="THUMBS UP"
-          action="Confirm / OK"
-          tip="Thumb up, all other fingers folded. Useful for confirmations and dismissing dialogs."
-        >
+        <GestureCard index={6} step="07" name="THUMBS UP" action="Confirm / OK"
+          tip="Thumb up, all other fingers folded. Useful for confirmations and dismissing dialogs.">
           <ThumbsUpAnim />
         </GestureCard>
-
-        <GestureCard
-          step="08"
-          name="OPEN PALM"
-          action="Idle / park"
-          tip="Spread all five fingers to release input safely."
-        >
+        <GestureCard index={7} step="08" name="OPEN PALM" action="Idle / park"
+          tip="Spread all five fingers to release input safely.">
           <PalmAnim />
         </GestureCard>
-
-        <GestureCard
-          step="09"
-          name="FIST"
-          action="Emergency stop"
-          tip="Make a tight fist for 500 ms to instantly disable the bridge."
-        >
+        <GestureCard index={8} step="09" name="FIST" action="Emergency stop"
+          tip="Make a tight fist for 500 ms to instantly disable the bridge.">
           <FistAnim />
         </GestureCard>
       </section>
@@ -159,55 +116,87 @@ function Header() {
           <Link to="/guide" className="text-foreground">Guide</Link>
           <Link to="/demo" className="hover:text-foreground transition-colors">Demo</Link>
         </nav>
-        <Link to="/demo" className="btn-primary h-10 px-4 text-sm">
-          ▶ Launch
-        </Link>
+        <div className="flex items-center gap-2">
+          <ThemeToggleQuick />
+          <ThemeSettings variant="inline" />
+          <Link to="/demo" className="btn-primary h-10 px-4 text-sm">
+            ▶ Launch
+          </Link>
+        </div>
       </div>
     </header>
   );
 }
 
 function GestureCard({
-  step, name, action, tip, children,
+  step, name, action, tip, children, index = 0,
 }: {
   step: string;
   name: string;
   action: string;
   tip: string;
   children: React.ReactNode;
+  index?: number;
 }) {
   const [playing, setPlaying] = useState(true);
   return (
-    <div className="panel overflow-hidden flex flex-col hover:shadow-lg hover:-translate-y-0.5 transition-all">
-      <div className="border-b border-border px-4 h-11 flex items-center justify-between bg-secondary/40">
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground">STEP {step}</span>
-          <span className="font-display text-sm">{name}</span>
+    <article
+      className="panel hover-lift overflow-hidden flex flex-col group animate-fade-in focus-within:ring-2 focus-within:ring-primary/40"
+      style={{ animationDelay: `${Math.min(index, 8) * 60}ms` }}
+    >
+      {/* Header strip — consistent 44px height */}
+      <header className="flex items-center justify-between border-b border-border px-4 h-11 bg-secondary/50">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground tabular-nums">
+            {step}
+          </span>
+          <span className="w-px h-3.5 bg-border" />
+          <span className="font-display text-[13px] truncate">{name}</span>
         </div>
         <button
+          type="button"
           onClick={() => setPlaying((p) => !p)}
-          className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors"
+          className="font-mono text-[10px] tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded hover:bg-card"
+          aria-label={playing ? "Pause animation" : "Play animation"}
         >
           {playing ? "❚❚ PAUSE" : "▶ PLAY"}
         </button>
-      </div>
-      <div className={`relative aspect-video bg-gradient-to-br from-secondary/60 to-card dot-grid overflow-hidden ${playing ? "" : "opacity-60"}`}>
-        <div style={{ animationPlayState: playing ? "running" : "paused" }}>
-          {children}
+      </header>
+
+      {/* Stage — fixed 16:9 with consistent inner padding */}
+      <div
+        className={`relative aspect-video overflow-hidden bg-gradient-to-br from-secondary/40 via-card to-secondary/40 dot-grid transition-opacity duration-200 ${
+          playing ? "" : "opacity-60"
+        }`}
+      >
+        <div className="absolute inset-3 transition-transform duration-300 group-hover:scale-[1.02]" style={{ animationPlayState: playing ? "running" : "paused" }}>
+          <div className="relative w-full h-full">{children}</div>
         </div>
-        <div className="absolute top-2 right-2 chip text-[9px] py-0.5">
+        <span className="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-card/80 backdrop-blur border border-border text-[9px] font-mono tracking-[0.18em] text-foreground">
           <span className="w-1.5 h-1.5 rounded-full bg-primary led anim-pulse-soft" />
           LIVE
-        </div>
+        </span>
       </div>
-      <div className="p-5">
-        <div className="flex items-center justify-between mb-2">
-          <span className="font-display text-sm text-gradient">{action}</span>
-          <span className="font-mono text-[10px] text-muted-foreground tracking-wider">→</span>
+
+      {/* Body — consistent padding and typography */}
+      <div className="p-5 flex-1 flex flex-col gap-2">
+        <div className="flex items-center justify-between gap-3">
+          <span className="font-display text-[15px] text-gradient leading-tight">{action}</span>
+          <ArrowIcon />
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed">{tip}</p>
       </div>
-    </div>
+    </article>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <span aria-hidden className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+      <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 12h14M13 5l7 7-7 7" />
+      </svg>
+    </span>
   );
 }
 

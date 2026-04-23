@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { Hand, MousePointer2, Zap, Shield, Activity, Sparkles, ArrowRight, Play, Github, Cpu, Eye, Gauge } from "lucide-react";
+import { ThemeSettings, ThemeToggleQuick } from "@/components/ThemeSettings";
 
 const Index = () => {
   useEffect(() => {
@@ -65,6 +66,8 @@ function Header() {
           >
             <Github className="w-4 h-4" />
           </a>
+          <ThemeToggleQuick />
+          <ThemeSettings variant="inline" />
           <Link to="/demo" className="btn-primary h-10 px-4 text-sm">
             <Play className="w-3.5 h-3.5 fill-current" />
             Launch demo
