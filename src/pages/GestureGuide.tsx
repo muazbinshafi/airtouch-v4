@@ -34,85 +34,41 @@ const GestureGuide = () => {
         </p>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 pb-24 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        <GestureCard
-          step="01"
-          name="POINT"
-          action="Track / hover"
-          tip="Extend only your index finger. The cursor follows your fingertip — no clicks emitted."
-        >
+      <section className="mx-auto max-w-7xl px-6 pb-24 grid gap-5 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
+        <GestureCard index={0} step="01" name="POINT" action="Track / hover"
+          tip="Extend only your index finger. The cursor follows your fingertip — no clicks emitted.">
           <PointAnim />
         </GestureCard>
-
-        <GestureCard
-          step="02"
-          name="INDEX MOVE"
-          action="Move cursor"
-          tip="Keep your wrist relaxed. Slow movements = pixel precision."
-        >
+        <GestureCard index={1} step="02" name="INDEX MOVE" action="Move cursor"
+          tip="Keep your wrist relaxed. Slow movements = pixel precision.">
           <IndexMoveAnim />
         </GestureCard>
-
-        <GestureCard
-          step="03"
-          name="PINCH"
-          action="Left click"
-          tip="Tap thumb + index briefly. Release within ~200 ms to register a click."
-        >
+        <GestureCard index={2} step="03" name="PINCH" action="Left click"
+          tip="Tap thumb + index briefly. Release within ~200 ms to register a click.">
           <PinchAnim />
         </GestureCard>
-
-        <GestureCard
-          step="04"
-          name="THREE-FINGER PINCH"
-          action="Right click"
-          tip="Touch thumb to BOTH index and middle fingertips together. Opens context menus."
-        >
+        <GestureCard index={3} step="04" name="THREE-FINGER PINCH" action="Right click"
+          tip="Touch thumb to BOTH index and middle fingertips together. Opens context menus.">
           <RightClickAnim />
         </GestureCard>
-
-        <GestureCard
-          step="05"
-          name="SUSTAINED PINCH"
-          action="Drag"
-          tip="Hold the pinch and move. Release to drop."
-        >
+        <GestureCard index={4} step="05" name="SUSTAINED PINCH" action="Drag"
+          tip="Hold the pinch and move. Release to drop.">
           <DragAnim />
         </GestureCard>
-
-        <GestureCard
-          step="06"
-          name="TWO-FINGER SCROLL"
-          action="Scroll up / down"
-          tip="Extend index + middle. Move them up to scroll up, down to scroll down."
-        >
+        <GestureCard index={5} step="06" name="TWO-FINGER SCROLL" action="Scroll up / down"
+          tip="Extend index + middle. Move them up to scroll up, down to scroll down.">
           <ScrollAnim />
         </GestureCard>
-
-        <GestureCard
-          step="07"
-          name="THUMBS UP"
-          action="Confirm / OK"
-          tip="Thumb up, all other fingers folded. Useful for confirmations and dismissing dialogs."
-        >
+        <GestureCard index={6} step="07" name="THUMBS UP" action="Confirm / OK"
+          tip="Thumb up, all other fingers folded. Useful for confirmations and dismissing dialogs.">
           <ThumbsUpAnim />
         </GestureCard>
-
-        <GestureCard
-          step="08"
-          name="OPEN PALM"
-          action="Idle / park"
-          tip="Spread all five fingers to release input safely."
-        >
+        <GestureCard index={7} step="08" name="OPEN PALM" action="Idle / park"
+          tip="Spread all five fingers to release input safely.">
           <PalmAnim />
         </GestureCard>
-
-        <GestureCard
-          step="09"
-          name="FIST"
-          action="Emergency stop"
-          tip="Make a tight fist for 500 ms to instantly disable the bridge."
-        >
+        <GestureCard index={8} step="09" name="FIST" action="Emergency stop"
+          tip="Make a tight fist for 500 ms to instantly disable the bridge.">
           <FistAnim />
         </GestureCard>
       </section>
