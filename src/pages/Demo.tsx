@@ -135,15 +135,20 @@ const Demo = () => {
   // bridge and flip the validated flag accordingly.
   useEffect(() => {
     if (!initialized || !bridgeRef.current) return;
+    const bridge = bridgeRef.current;
     if (controlMode === "bridge") {
-      TelemetryStore.set({ bridgeValidated: false, bridgeProbeMsg: "Switched to bridge mode — testing…" });
-      bridgeRef.current.setUrl(bridgeUrl);
-      bridgeRef.current.probe();
+      TelemetryStore.set({
+        bridgeValidated: false,
+        bridgeProbe: "probing",
+        bridgeProbeMsg: "Switched to bridge mode — probing…",
+      });
+      bridge.rearm();
+      bridge.setUrl(bridgeUrl);
+      bridge.probe();
     } else {
-      bridgeRef.current.emergencyStop();
-      bridgeRef.current.rearm(); // clear stopped flag
-      bridgeRef.current.emergencyStop(); // close socket but keep stop?
-      // Simpler: just close and mark validated for browser mode.
+      // Browser-only: stop network traffic, keep telemetry "validated" so
+      // the GestureEngine still emits packets that BrowserCursor consumes.
+      bridge.emergencyStop();
       TelemetryStore.set({
         wsState: "connected",
         bridgeValidated: true,
