@@ -327,4 +327,22 @@
     background-size: 200% 100%;
     animation: op-shimmer 3s linear infinite;
   }
+
+  /* Entrance + interaction */
+  @keyframes op-fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes op-scale-in {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .animate-fade-in  { animation: op-fade-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .animate-scale-in { animation: op-scale-in 0.18s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .hover-lift {
+    transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 250ms cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 250ms ease;
+  }
+  .hover-lift:hover { transform: translateY(-3px); }
 }
