@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { ControlMode } from "@/components/omnipoint/ControlModeBar";
 
 interface Props {
   status: string;
@@ -6,9 +7,19 @@ interface Props {
   error: string | null;
   onInitialize: () => void;
   initializing: boolean;
+  controlMode?: ControlMode;
+  onControlModeChange?: (m: ControlMode) => void;
 }
 
-export function InitScreen({ status, progress, error, onInitialize, initializing }: Props) {
+export function InitScreen({
+  status,
+  progress,
+  error,
+  onInitialize,
+  initializing,
+  controlMode = "browser",
+  onControlModeChange,
+}: Props) {
   const [showRemote, setShowRemote] = useState(false);
   if (error) {
     return (
