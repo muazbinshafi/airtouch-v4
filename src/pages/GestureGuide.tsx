@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { ThemeSettings, ThemeToggleQuick } from "@/components/ThemeSettings";
 
 const GestureGuide = () => {
   useEffect(() => {
