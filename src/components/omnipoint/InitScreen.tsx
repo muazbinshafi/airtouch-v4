@@ -77,13 +77,53 @@ export function InitScreen({
           </div>
         </div>
 
+        {onControlModeChange && (
+          <div className="mb-5">
+            <div className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground mb-2">
+              ▌ CONTROL MODE
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => onControlModeChange("browser")}
+                className={`text-left p-3 border transition-colors ${
+                  controlMode === "browser"
+                    ? "border-primary bg-primary/10"
+                    : "hairline hover:border-primary/40"
+                }`}
+              >
+                <div className={`font-mono text-[11px] tracking-[0.2em] mb-1 ${controlMode === "browser" ? "text-primary" : "text-foreground"}`}>
+                  🌐 BROWSER
+                </div>
+                <div className="font-mono text-[9.5px] text-muted-foreground leading-snug">
+                  Just camera permission. Controls this page only.
+                </div>
+              </button>
+              <button
+                onClick={() => onControlModeChange("bridge")}
+                className={`text-left p-3 border transition-colors ${
+                  controlMode === "bridge"
+                    ? "border-primary bg-primary/10"
+                    : "hairline hover:border-primary/40"
+                }`}
+              >
+                <div className={`font-mono text-[11px] tracking-[0.2em] mb-1 ${controlMode === "bridge" ? "text-primary" : "text-foreground"}`}>
+                  🖥 BRIDGE
+                </div>
+                <div className="font-mono text-[9.5px] text-muted-foreground leading-snug">
+                  Real OS cursor via local Python daemon.
+                </div>
+              </button>
+            </div>
+          </div>
+        )}
+
         <button
           onClick={onInitialize}
           disabled={initializing}
           className="w-full h-12 font-mono text-xs tracking-[0.35em] border border-primary bg-primary/10 text-primary hover:bg-primary/20 disabled:opacity-60 disabled:cursor-wait led"
           style={{ boxShadow: "0 0 18px hsl(var(--primary) / 0.4)" }}
         >
-          {initializing ? "▶ INITIALIZING..." : "▶ INITIALIZE SENSOR"}
+          {initializing ? "▶ INITIALIZING..." : "▶ START CAMERA"}
         </button>
 
         {initializing && (
