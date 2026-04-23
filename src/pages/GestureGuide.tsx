@@ -160,55 +160,87 @@ function Header() {
           <Link to="/guide" className="text-foreground">Guide</Link>
           <Link to="/demo" className="hover:text-foreground transition-colors">Demo</Link>
         </nav>
-        <Link to="/demo" className="btn-primary h-10 px-4 text-sm">
-          ▶ Launch
-        </Link>
+        <div className="flex items-center gap-2">
+          <ThemeToggleQuick />
+          <ThemeSettings variant="inline" />
+          <Link to="/demo" className="btn-primary h-10 px-4 text-sm">
+            ▶ Launch
+          </Link>
+        </div>
       </div>
     </header>
   );
 }
 
 function GestureCard({
-  step, name, action, tip, children,
+  step, name, action, tip, children, index = 0,
 }: {
   step: string;
   name: string;
   action: string;
   tip: string;
   children: React.ReactNode;
+  index?: number;
 }) {
   const [playing, setPlaying] = useState(true);
   return (
-    <div className="panel overflow-hidden flex flex-col hover:shadow-lg hover:-translate-y-0.5 transition-all">
-      <div className="border-b border-border px-4 h-11 flex items-center justify-between bg-secondary/40">
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground">STEP {step}</span>
-          <span className="font-display text-sm">{name}</span>
+    <article
+      className="panel hover-lift overflow-hidden flex flex-col group animate-fade-in focus-within:ring-2 focus-within:ring-primary/40"
+      style={{ animationDelay: `${Math.min(index, 8) * 60}ms` }}
+    >
+      {/* Header strip — consistent 44px height */}
+      <header className="flex items-center justify-between border-b border-border px-4 h-11 bg-secondary/50">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground tabular-nums">
+            {step}
+          </span>
+          <span className="w-px h-3.5 bg-border" />
+          <span className="font-display text-[13px] truncate">{name}</span>
         </div>
         <button
+          type="button"
           onClick={() => setPlaying((p) => !p)}
-          className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors"
+          className="font-mono text-[10px] tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded hover:bg-card"
+          aria-label={playing ? "Pause animation" : "Play animation"}
         >
           {playing ? "❚❚ PAUSE" : "▶ PLAY"}
         </button>
-      </div>
-      <div className={`relative aspect-video bg-gradient-to-br from-secondary/60 to-card dot-grid overflow-hidden ${playing ? "" : "opacity-60"}`}>
-        <div style={{ animationPlayState: playing ? "running" : "paused" }}>
-          {children}
+      </header>
+
+      {/* Stage — fixed 16:9 with consistent inner padding */}
+      <div
+        className={`relative aspect-video overflow-hidden bg-gradient-to-br from-secondary/40 via-card to-secondary/40 dot-grid transition-opacity duration-200 ${
+          playing ? "" : "opacity-60"
+        }`}
+      >
+        <div className="absolute inset-3 transition-transform duration-300 group-hover:scale-[1.02]" style={{ animationPlayState: playing ? "running" : "paused" }}>
+          <div className="relative w-full h-full">{children}</div>
         </div>
-        <div className="absolute top-2 right-2 chip text-[9px] py-0.5">
+        <span className="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-card/80 backdrop-blur border border-border text-[9px] font-mono tracking-[0.18em] text-foreground">
           <span className="w-1.5 h-1.5 rounded-full bg-primary led anim-pulse-soft" />
           LIVE
-        </div>
+        </span>
       </div>
-      <div className="p-5">
-        <div className="flex items-center justify-between mb-2">
-          <span className="font-display text-sm text-gradient">{action}</span>
-          <span className="font-mono text-[10px] text-muted-foreground tracking-wider">→</span>
+
+      {/* Body — consistent padding and typography */}
+      <div className="p-5 flex-1 flex flex-col gap-2">
+        <div className="flex items-center justify-between gap-3">
+          <span className="font-display text-[15px] text-gradient leading-tight">{action}</span>
+          <ArrowIcon />
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed">{tip}</p>
       </div>
-    </div>
+    </article>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <span aria-hidden className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+      <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 12h14M13 5l7 7-7 7" />
+      </svg>
+    </span>
   );
 }
 
